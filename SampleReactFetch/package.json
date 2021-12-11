@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "sample-react-fetch",
   "version": "0.0.1",
   "scripts": {
     "start": "webpack serve --config webpack.dev.config.ts",

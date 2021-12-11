@@ -1,7 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {UserComponent} from "./App"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
-import "./styles.scss";
+import './styles.scss';
 
-ReactDOM.render(<UserComponent />, document.getElementById('root'));
+const rootElement = document.getElementById('root');
+
+ReactDOM.render(<App />, rootElement);
