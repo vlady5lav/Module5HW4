@@ -121,7 +121,7 @@ const ResourceComponent = (): ReactElement => {
             throw Error('Resource is null or undefinded!');
         }
 
-        return { cardHeader: 'ID: ' + resource?.id, title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, cardFooter: 'Pantone Value: ' + resource?.pantone_value };
+        return { cardHeader: 'Resource created successfully!', title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, text: 'Pantone Value: ' + resource?.pantone_value, cardFooter: 'ID: ' + resource?.id };
     }
 
     const getUpdatedResourceProps = (resource: IResource): ICardItemProps => {
@@ -129,7 +129,7 @@ const ResourceComponent = (): ReactElement => {
             throw Error('Resource is null or undefinded!');
         }
 
-        return { cardHeader: 'ID: ' + resource?.id, title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, cardFooter: 'Pantone Value: ' + resource?.pantone_value };
+        return { cardHeader: 'Resource updated successfully!', title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, text: 'Pantone Value: ' + resource?.pantone_value, cardFooter: 'ID: ' + resource?.id };
     }
 
     const resourceProps: ICardItemProps[] = resource ? Array.of(getResourceProps(resource)) : [];

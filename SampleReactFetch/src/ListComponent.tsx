@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Card, CardGroup, Spinner } from 'react-bootstrap';
+import { Card, CardGroup, Container, Spinner } from 'react-bootstrap';
 
 interface ICardProps {
     keyId: number;
@@ -22,68 +22,90 @@ export interface ICardItemProps {
     cardFooter?: string;
 }
 
-const CardItem = (props: ICardItemProps): ReactElement => (
-    <Card key={props?.id ?? props?.title}>
-        <Card.Header>
-            {props?.cardHeader}
-        </Card.Header>
-        <Card.Body>
-            {
-                props?.img
-                    ?
-                    <Card.Img src={props?.img} className='avatar' />
-                    :
-                    <></>
-            }
-            {
-                props?.title
-                    ?
-                    <Card.Title>
-                        {props?.title}
-                    </Card.Title>
-                    :
-                    <></>
-            }
-            {
-                props?.subtitle
-                    ?
-                    <Card.Subtitle>
-                        {props?.subtitle}
-                    </Card.Subtitle>
-                    :
-                    <></>
-            }
-            {
-                props?.text
-                    ?
-                    <Card.Text>
-                        {props?.text}
-                    </Card.Text>
-                    :
-                    <></>
-            }
-        </Card.Body>
-        <Card.Footer>
-            {props?.cardFooter}
-        </Card.Footer>
-    </Card>
-);
+const cardImg = (props: ICardItemProps | undefined): ReactElement => {
+    if (props?.img) {
+        return <Card.Img src={props?.img} className='avatar' />;
+    }
+    else {
+        return React.createElement('span', { className: 'hidden' }, 'hiddenText');
+    }
+}
+
+const cardTitle = (props: ICardItemProps | undefined): ReactElement => {
+    if (props?.title) {
+        return (
+            <Card.Title>
+                {props?.title}
+            </Card.Title>
+        )
+    }
+    else {
+        return React.createElement('span', { className: 'hidden' }, 'hiddenText');
+    }
+}
+
+const cardSubtitle = (props: ICardItemProps | undefined): ReactElement => {
+    if (props?.subtitle) {
+        return (
+            <Card.Subtitle>
+                {props?.subtitle}
+            </Card.Subtitle>
+        )
+    }
+    else {
+        return React.createElement('span', { className: 'hidden' }, 'hiddenText');
+    }
+}
+
+const cardText = (props: ICardItemProps | undefined): ReactElement => {
+    if (props?.text) {
+        return (
+            <Card.Text>
+                {props?.text}
+            </Card.Text>
+        )
+    }
+    else {
+        return React.createElement('span', { className: 'hidden' }, 'hiddenText');
+    }
+}
+
+const CardItem = (props: ICardItemProps): ReactElement => {
+    return (
+        <Card key={props?.id ?? props?.title}>
+            <Card.Header>
+                {props?.cardHeader ?? React.createElement('span', { className: 'hidden' }, 'hiddenText')}
+            </Card.Header>
+            <Card.Body>
+                {cardImg(props)}
+                {cardTitle(props)}
+                {cardSubtitle(props)}
+                {cardText(props)}
+            </Card.Body>
+            <Card.Footer>
+                {props?.cardFooter ?? React.createElement('span', { className: 'hidden' }, 'hiddenText')}
+            </Card.Footer>
+        </Card>
+    )
+}
 
 export const LoadingGenerator = (): ReactElement => (
-    <>
-        <span>Loading...</span>
-        <Spinner animation="border" role="status" />
-    </>
+    <Container className="centered">
+        <span>Loading... </span>
+        <Spinner animation="border" role="status" className="centered"><span className="centered hidden">hiddenText</span></Spinner>
+    </Container>
 );
 
 const ListComponent = (props: ICardItemProps[]): ReactElement => {
     const child = props.map(
-        prop => <CardItem key={Math.random() * 10000} img={prop?.img} text={prop?.text} title={prop?.title}
+        prop => <CardItem key={Math.random() * 975 / 135} img={prop?.img} text={prop?.text} title={prop?.title}
             subtitle={prop?.subtitle} id={prop?.id} cardHeader={prop?.cardHeader} cardFooter={prop?.cardFooter} />
     );
 
     return (
-        <CardsGroup key={Math.random() * 10000} keyId={Math.random() * 10000} children={child} />
+        <Container>
+            <CardsGroup key={Math.random() * 975 / 135} keyId={Math.random() * 975 / 135} children={child} />
+        </Container>
     );
 }
 

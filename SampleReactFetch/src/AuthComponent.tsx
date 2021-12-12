@@ -57,20 +57,28 @@ const AuthComponent = (): ReactElement => {
         if (auth == null) {
             throw Error('Auth is null!');
         }
+
+        const authProps: ICardItemProps = {};
         
         if (Object.prototype.hasOwnProperty.call(auth, "error")) {
-            return { title: `Error: ${(auth as IError)?.error}` };
+            authProps.title = `Error: ${(auth as IError)?.error}`;
+            authProps.cardFooter = 'Auth failed!';
         }
 
         if (Object.prototype.hasOwnProperty.call(auth, "id")) {
-            return { title: `ID: ${(auth as IRegisterResult)?.id}`, subtitle: `Token: ${(auth as IRegisterResult)?.token}` };
+            authProps.title = `ID: ${(auth as IRegisterResult)?.id}`;
+            authProps.subtitle = `Token: ${(auth as IRegisterResult)?.token}`;
+            authProps.cardFooter = 'Register successful!';
         }
 
         if (Object.prototype.hasOwnProperty.call(auth, "token")) {
-            return { title: `Token: ${(auth as ILoginResult)?.token}` };
+            authProps.title = `Token: ${(auth as ILoginResult)?.token}`;
+            authProps.cardFooter = 'Login successful!';
         }
 
-        throw Error('Auth is undefined!');
+        authProps.cardHeader = 'Auth Data';
+
+        return authProps;
     }
 
     const registerOkProps: ICardItemProps[] = registerOk ? Array.of(getAuthProps(registerOk)) : [];

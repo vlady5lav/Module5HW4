@@ -130,7 +130,7 @@ const UserComponent = (): ReactElement => {
         const rawDate = employee?.createdAt ? new Date(employee?.createdAt) : undefined;
         const localeDate = rawDate?.toLocaleString("en-US", dateTimeOptions);
 
-        return { title: 'Name: ' + employee?.name, subtitle: 'Job: ' + employee?.job, cardFooter: `Created: ${localeDate}` };
+        return { title: 'Name: ' + employee?.name, subtitle: 'Job: ' + employee?.job, cardFooter: `Created: ${localeDate}`, cardHeader: 'User created successfully!' };
     }
 
     const getUpdatedUserProps = (employee: IEmployee): ICardItemProps => {
@@ -141,7 +141,7 @@ const UserComponent = (): ReactElement => {
         const rawDate = employee?.updatedAt ? new Date(employee?.updatedAt) : undefined;
         const localeDate = rawDate?.toLocaleString("en-US", dateTimeOptions);
 
-        return { title: 'Name: ' + employee?.name, subtitle: 'Job: ' + employee?.job, cardFooter: `Updated: ${localeDate}` };
+        return { title: 'Name: ' + employee?.name, subtitle: 'Job: ' + employee?.job, cardFooter: `Updated: ${localeDate}`, cardHeader: 'User updated successfully!'  };
     }
 
     const userProps: ICardItemProps[] = user ? Array.of(getUserProps(user)) : [];

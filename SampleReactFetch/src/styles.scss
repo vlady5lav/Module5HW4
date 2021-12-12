@@ -1,12 +1,37 @@
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-.card-group {
-    text-align: center;
-    justify-items: center;
+h1 {
+    margin: 10px 10px 10px 10px;
 }
 
 .avatar {
     width: max-content;
     height: max-content;
+}
+
+.bordered {
+    border: solid 2px green;
+}
+
+.card-group {
+    text-align: center;
+    justify-items: center;
+    margin: 10px 10px 10px 10px;
+}
+
+.centered {
+    text-align: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.container {
+    max-width: 1450px;
+}
+
+.hidden {
+    visibility: hidden;
 }
