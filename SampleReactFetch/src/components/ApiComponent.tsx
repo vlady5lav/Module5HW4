@@ -1,4 +1,4 @@
-const apiUrl = 'https://reqres.in/api';
+const apiUrl = process.env.BASE_API_URL;
 
 export const getResponse = async <Tin, Tout>({ requestUrl, method, payload }: IRequestOptions<Tin>): Promise<Tout> => {
     const requestOptions = {

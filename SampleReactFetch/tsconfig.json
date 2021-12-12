@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [ "dom", "dom.iterable", "esnext" ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
@@ -13,5 +15,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src"]
+
+  "include": [ "src" ]
 }

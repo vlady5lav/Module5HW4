@@ -1,23 +1,23 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import ListComponent, { LoadingGenerator, ICardItemProps } from './ListComponent'
 import { getResponse, HttpRequestMethod } from './ApiComponent';
-import IAuthDTO from './DTO/AuthDTO';
-import IError from './Models/Error';
-import IErrorDTO from './DTO/ErrorDTO';
-import ILoginResponse from './DTO/LoginResponse';
-import ILoginResult from './Models/LoginResult';
-import IRegisterResponse from './DTO/RegisterResponse';
-import IRegisterResult from './Models/RegisterResult';
+import IAuthDTO from '../dto/AuthDTO';
+import IError from '../models/Error';
+import IErrorDTO from '../dto/ErrorDTO';
+import ILoginResponse from '../dto/LoginResponse';
+import ILoginResult from '../models/LoginResult';
+import IRegisterResponse from '../dto/RegisterResponse';
+import IRegisterResult from '../models/RegisterResult';
 
 const registerRequest = async (credentials: IAuthDTO): Promise<IRegisterResult | IError> => {
     const response = await getResponse<IAuthDTO, IRegisterResponse | IErrorDTO>(
-        { requestUrl: '/register', method: HttpRequestMethod.POST, payload: credentials });
+        { requestUrl: 'register', method: HttpRequestMethod.POST, payload: credentials });
     return response;
 }
 
 const loginRequest = async (credentials: IAuthDTO): Promise<ILoginResult | IError> => {
     const response = await getResponse<IAuthDTO, ILoginResponse | IErrorDTO>(
-        { requestUrl: '/login', method: HttpRequestMethod.POST, payload: credentials });
+        { requestUrl: 'login', method: HttpRequestMethod.POST, payload: credentials });
     return response;
 }
 

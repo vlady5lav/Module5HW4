@@ -1,18 +1,18 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import ListComponent, { LoadingGenerator, ICardItemProps } from './ListComponent'
 import { getResponse, HttpRequestMethod } from './ApiComponent';
-import ICreateEmployeeResponse from './DTO/CreateEmployeeResponse';
-import IEmployee from './Models/Employee';
-import IEmployeeDTO from './DTO/EmployeeDTO';
-import IResponseDTO from './DTO/ResponseDTO';
-import IUpdateEmployeeResponse from './DTO/UpdateEmployeeResponse';
-import IUser from './Models/User';
-import IUserDTO from './DTO/UserDTO';
+import ICreateEmployeeResponse from '../dto/CreateEmployeeResponse';
+import IEmployee from '../models/Employee';
+import IEmployeeDTO from '../dto/EmployeeDTO';
+import IResponseDTO from '../dto/ResponseDTO';
+import IUpdateEmployeeResponse from '../dto/UpdateEmployeeResponse';
+import IUser from '../models/User';
+import IUserDTO from '../dto/UserDTO';
 
 const getUserById = async (id: number, delay = 0): Promise<IUser> => {
     const response = await (
         await getResponse<undefined, IResponseDTO<IUserDTO>>(
-            { requestUrl: delay == 0 ? `/users/${id}` : `/users/${id}?delay=${delay}`, method: HttpRequestMethod.GET })
+            { requestUrl: delay == 0 ? `users/${id}` : `users/${id}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
@@ -20,33 +20,33 @@ const getUserById = async (id: number, delay = 0): Promise<IUser> => {
 const getUsersByPage = async (page: number, delay = 0): Promise<IUser[]> => {
     const response = await (
         await getResponse<undefined, IResponseDTO<IUserDTO[]>>(
-            { requestUrl: delay == 0 ? `/users?page=${page}` : `/users?page=${page}?delay=${delay}`, method: HttpRequestMethod.GET })
+            { requestUrl: delay == 0 ? `users?page=${page}` : `users?page=${page}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
 
 const createUser = async (employee: IEmployeeDTO): Promise<IEmployee> => {
     const response = await getResponse<IEmployeeDTO, ICreateEmployeeResponse>(
-        { requestUrl: '/users', method: HttpRequestMethod.POST, payload: employee });
+        { requestUrl: 'users', method: HttpRequestMethod.POST, payload: employee });
     return response;
 }
 
 const updatePatchUserById = async (id: number, employee: IEmployeeDTO): Promise<IEmployee> => {
     const response = await getResponse<IEmployeeDTO, IUpdateEmployeeResponse>(
-        { requestUrl: `/users/${id}`, method: HttpRequestMethod.PATCH, payload: employee });
+        { requestUrl: `users/${id}`, method: HttpRequestMethod.PATCH, payload: employee });
     return response;
 }
 
 const updatePutUserById = async (id: number, employee: IEmployeeDTO): Promise<IEmployee> => {
     const response = await getResponse<IEmployeeDTO, IUpdateEmployeeResponse>(
-        { requestUrl: `/users/${id}`, method: HttpRequestMethod.PUT, payload: employee });
+        { requestUrl: `users/${id}`, method: HttpRequestMethod.PUT, payload: employee });
     return response;
 }
 
 /*
 const deleteUserById = async (id: number): Promise<any> => {
     const response = await getResponse<any, any>(
-        { requestUrl: `/users/${id}`, method: HttpRequestMethod.DELETE });
+        { requestUrl: `users/${id}`, method: HttpRequestMethod.DELETE });
     return response;
 }
 */

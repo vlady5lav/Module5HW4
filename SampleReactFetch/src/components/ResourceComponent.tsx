@@ -1,14 +1,14 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import ListComponent, { LoadingGenerator, ICardItemProps } from './ListComponent'
 import { getResponse, HttpRequestMethod } from './ApiComponent';
-import IResource from './Models/Resource';
-import IResourceDTO from './DTO/ResourceDTO';
-import IResponseDTO from './DTO/ResponseDTO';
+import IResource from '../models/Resource';
+import IResourceDTO from '../dto/ResourceDTO';
+import IResponseDTO from '../dto/ResponseDTO';
 
 const getResourceById = async (id: number, delay = 0): Promise<IResource> => {
     const response = await (
         await getResponse<undefined, IResponseDTO<IResourceDTO>>(
-            { requestUrl: delay == 0 ? `/unknown/${id}` : `/unknown/${id}?delay=${delay}`, method: HttpRequestMethod.GET })
+            { requestUrl: delay == 0 ? `unknown/${id}` : `unknown/${id}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
@@ -16,33 +16,33 @@ const getResourceById = async (id: number, delay = 0): Promise<IResource> => {
 const getResourcesByPage = async (page: number, delay = 0): Promise<IResource[]> => {
     const response = await (
         await getResponse<undefined, IResponseDTO<IResourceDTO[]>>(
-            { requestUrl: delay == 0 ? `/unknown?page=${page}` : `/unknown?page=${page}?delay=${delay}`, method: HttpRequestMethod.GET })
+            { requestUrl: delay == 0 ? `unknown?page=${page}` : `unknown?page=${page}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
 
 const createResource = async (resource: IResourceDTO): Promise<IResource> => {
     const response = await getResponse<IResourceDTO, IResourceDTO>(
-        { requestUrl: '/unknown', method: HttpRequestMethod.POST, payload: resource });
+        { requestUrl: 'unknown', method: HttpRequestMethod.POST, payload: resource });
     return response;
 }
 
 const updatePatchResourceById = async (id: number, resource: IResourceDTO): Promise<IResource> => {
     const response = await getResponse<IResourceDTO, IResourceDTO>(
-        { requestUrl: `/unknown/${id}`, method: HttpRequestMethod.PATCH, payload: resource });
+        { requestUrl: `unknown/${id}`, method: HttpRequestMethod.PATCH, payload: resource });
     return response;
 }
 
 const updatePutResourceById = async (id: number, resource: IResourceDTO): Promise<IResource> => {
     const response = await getResponse<IResourceDTO, IResourceDTO>(
-        { requestUrl: `/unknown/${id}`, method: HttpRequestMethod.PUT, payload: resource });
+        { requestUrl: `unknown/${id}`, method: HttpRequestMethod.PUT, payload: resource });
     return response;
 }
 
 /*
 const deleteResourceById = async (id: number): Promise<any> => {
     const response = await getResponse<any, any>(
-        { requestUrl: `/unknown/${id}`, method: HttpRequestMethod.DELETE });
+        { requestUrl: `unknown/${id}`, method: HttpRequestMethod.DELETE });
     return response;
 }
 */
