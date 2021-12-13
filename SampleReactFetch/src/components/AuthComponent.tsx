@@ -1,22 +1,22 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import ListComponent, { LoadingGenerator, ICardItemProps } from './ListComponent'
-import { getResponse, HttpRequestMethod } from './ApiComponent';
-import IAuthDTO from '../dto/AuthDTO';
-import IError from '../models/Error';
-import IErrorDTO from '../dto/ErrorDTO';
-import ILoginResponse from '../dto/LoginResponse';
-import ILoginResult from '../models/LoginResult';
-import IRegisterResponse from '../dto/RegisterResponse';
-import IRegisterResult from '../models/RegisterResult';
+import ListComponent, { LoadingGenerator, CardItemProps } from './ListComponent'
+import { getResponse, HttpRequestMethod } from './ApiService';
+import AuthDTO from '../dtos/AuthDTO';
+import ErrorMessage from '../models/ErrorMessage';
+import ErrorMessageDTO from '../dtos/ErrorMessageDTO';
+import LoginResponse from '../dtos/LoginResponse';
+import LoginResult from '../models/LoginResult';
+import RegisterResponse from '../dtos/RegisterResponse';
+import RegisterResult from '../models/RegisterResult';
 
-const registerRequest = async (credentials: IAuthDTO): Promise<IRegisterResult | IError> => {
-    const response = await getResponse<IAuthDTO, IRegisterResponse | IErrorDTO>(
+const registerRequest = async (credentials: AuthDTO): Promise<RegisterResult | ErrorMessage> => {
+    const response = await getResponse<AuthDTO, RegisterResponse | ErrorMessageDTO>(
         { requestUrl: 'register', method: HttpRequestMethod.POST, payload: credentials });
     return response;
 }
 
-const loginRequest = async (credentials: IAuthDTO): Promise<ILoginResult | IError> => {
-    const response = await getResponse<IAuthDTO, ILoginResponse | IErrorDTO>(
+const loginRequest = async (credentials: AuthDTO): Promise<LoginResult | ErrorMessage> => {
+    const response = await getResponse<AuthDTO, LoginResponse | ErrorMessageDTO>(
         { requestUrl: 'login', method: HttpRequestMethod.POST, payload: credentials });
     return response;
 }
@@ -24,17 +24,17 @@ const loginRequest = async (credentials: IAuthDTO): Promise<ILoginResult | IErro
 const AuthComponent = (): ReactElement => {
     const [loading, setLoading] = useState(true);
 
-    const [registerOk, setRegisterOk] = useState<IRegisterResult | IError | null>(null);
-    const [registerFail, setRegisterFail] = useState<IRegisterResult | IError | null>(null);
-    const [loginOk, setLoginOk] = useState<ILoginResult | IError | null>(null);
-    const [loginFail, setLoginFail] = useState<ILoginResult | IError | null>(null);
+    const [registerOk, setRegisterOk] = useState<RegisterResult | ErrorMessage | null>(null);
+    const [registerFail, setRegisterFail] = useState<RegisterResult | ErrorMessage | null>(null);
+    const [loginOk, setLoginOk] = useState<LoginResult | ErrorMessage | null>(null);
+    const [loginFail, setLoginFail] = useState<LoginResult | ErrorMessage | null>(null);
 
     const getResult = async (): Promise<void> => {
 
-        const registerCredentialsOk: IAuthDTO = { email: "eve.holt@reqres.in", password: "pistol" };
-        const registerCredentialsFail: IAuthDTO = { email: "sydney@fife" };
-        const loginCredentialsOk: IAuthDTO = { email: "eve.holt@reqres.in", password: "cityslicka" };
-        const loginCredentialsFail: IAuthDTO = { email: "peter@klaven" };
+        const registerCredentialsOk: AuthDTO = { email: "eve.holt@reqres.in", password: "pistol" };
+        const registerCredentialsFail: AuthDTO = { email: "sydney@fife" };
+        const loginCredentialsOk: AuthDTO = { email: "eve.holt@reqres.in", password: "cityslicka" };
+        const loginCredentialsFail: AuthDTO = { email: "peter@klaven" };
 
         const resultRegisterOk = await registerRequest(registerCredentialsOk);
         const resultRegisterFail = await registerRequest(registerCredentialsFail);
@@ -53,26 +53,26 @@ const AuthComponent = (): ReactElement => {
         getResult();
     }, []);
 
-    const getAuthProps = (auth: IRegisterResult | ILoginResult | IError): ICardItemProps => {
+    const getAuthProps = (auth: RegisterResult | LoginResult | ErrorMessage): CardItemProps => {
         if (auth == null) {
             throw Error('Auth is null!');
         }
 
-        const authProps: ICardItemProps = {};
+        const authProps: CardItemProps = {};
         
         if (Object.prototype.hasOwnProperty.call(auth, "error")) {
-            authProps.title = `Error: ${(auth as IError)?.error}`;
+            authProps.title = `Error: ${(auth as ErrorMessage)?.error}`;
             authProps.cardFooter = 'Auth failed!';
         }
 
         if (Object.prototype.hasOwnProperty.call(auth, "id")) {
-            authProps.title = `ID: ${(auth as IRegisterResult)?.id}`;
-            authProps.subtitle = `Token: ${(auth as IRegisterResult)?.token}`;
+            authProps.title = `ID: ${(auth as RegisterResult)?.id}`;
+            authProps.subtitle = `Token: ${(auth as RegisterResult)?.token}`;
             authProps.cardFooter = 'Register successful!';
         }
 
         if (Object.prototype.hasOwnProperty.call(auth, "token")) {
-            authProps.title = `Token: ${(auth as ILoginResult)?.token}`;
+            authProps.title = `Token: ${(auth as LoginResult)?.token}`;
             authProps.cardFooter = 'Login successful!';
         }
 
@@ -81,10 +81,10 @@ const AuthComponent = (): ReactElement => {
         return authProps;
     }
 
-    const registerOkProps: ICardItemProps[] = registerOk ? Array.of(getAuthProps(registerOk)) : [];
-    const registerFailProps: ICardItemProps[] = registerFail ? Array.of(getAuthProps(registerFail)) : [];
-    const loginOkProps: ICardItemProps[] = loginOk ? Array.of(getAuthProps(loginOk)) : [];
-    const loginFailProps: ICardItemProps[] = loginFail ? Array.of(getAuthProps(loginFail)) : [];
+    const registerOkProps: CardItemProps[] = registerOk ? Array.of(getAuthProps(registerOk)) : [];
+    const registerFailProps: CardItemProps[] = registerFail ? Array.of(getAuthProps(registerFail)) : [];
+    const loginOkProps: CardItemProps[] = loginOk ? Array.of(getAuthProps(loginOk)) : [];
+    const loginFailProps: CardItemProps[] = loginFail ? Array.of(getAuthProps(loginFail)) : [];
 
     return (
         <>

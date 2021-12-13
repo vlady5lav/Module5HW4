@@ -1,3 +1,3 @@
-export default interface ILoginResult {
-    token: string;
+export default interface LoginResult {
+    token: string,
 }

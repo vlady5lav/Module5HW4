@@ -1,28 +1,28 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { Card, CardGroup, Container, Spinner } from 'react-bootstrap';
 
-interface ICardProps {
-    keyId: number;
-    children: ReactNode;
+interface CardProps {
+    keyId: number,
+    children: ReactNode,
 }
 
-const CardsGroup = (props: ICardProps): ReactElement => (
+const CardsGroup = (props: CardProps): ReactElement => (
     <CardGroup key={props.keyId}>
         {props.children}
     </CardGroup>
 )
 
-export interface ICardItemProps {
-    id?: number | string;
-    img?: string;
-    title?: string;
-    subtitle?: string;
-    text?: string;
-    cardHeader?: string;
-    cardFooter?: string;
+export interface CardItemProps {
+    id?: number | string,
+    img?: string,
+    title?: string,
+    subtitle?: string,
+    text?: string,
+    cardHeader?: string,
+    cardFooter?: string,
 }
 
-const cardImg = (props: ICardItemProps | undefined): ReactElement => {
+const cardImg = (props: CardItemProps | undefined): ReactElement => {
     if (props?.img) {
         return <Card.Img src={props?.img} className='avatar' />;
     }
@@ -31,7 +31,7 @@ const cardImg = (props: ICardItemProps | undefined): ReactElement => {
     }
 }
 
-const cardTitle = (props: ICardItemProps | undefined): ReactElement => {
+const cardTitle = (props: CardItemProps | undefined): ReactElement => {
     if (props?.title) {
         return (
             <Card.Title>
@@ -44,7 +44,7 @@ const cardTitle = (props: ICardItemProps | undefined): ReactElement => {
     }
 }
 
-const cardSubtitle = (props: ICardItemProps | undefined): ReactElement => {
+const cardSubtitle = (props: CardItemProps | undefined): ReactElement => {
     if (props?.subtitle) {
         return (
             <Card.Subtitle>
@@ -57,7 +57,7 @@ const cardSubtitle = (props: ICardItemProps | undefined): ReactElement => {
     }
 }
 
-const cardText = (props: ICardItemProps | undefined): ReactElement => {
+const cardText = (props: CardItemProps | undefined): ReactElement => {
     if (props?.text) {
         return (
             <Card.Text>
@@ -70,7 +70,7 @@ const cardText = (props: ICardItemProps | undefined): ReactElement => {
     }
 }
 
-const CardItem = (props: ICardItemProps): ReactElement => {
+const CardItem = (props: CardItemProps): ReactElement => {
     return (
         <Card key={props?.id ?? props?.title}>
             <Card.Header>
@@ -96,15 +96,15 @@ export const LoadingGenerator = (): ReactElement => (
     </Container>
 );
 
-const ListComponent = (props: ICardItemProps[]): ReactElement => {
-    const child = props.map(
-        prop => <CardItem key={Math.random() * 975 / 135} img={prop?.img} text={prop?.text} title={prop?.title}
-            subtitle={prop?.subtitle} id={prop?.id} cardHeader={prop?.cardHeader} cardFooter={prop?.cardFooter} />
-    );
-
+const ListComponent = (props: CardItemProps[]): ReactElement => {
     return (
         <Container>
-            <CardsGroup key={Math.random() * 975 / 135} keyId={Math.random() * 975 / 135} children={child} />
+            <CardsGroup key={Math.random() * 975 / 135} keyId={Math.random() * 975 / 135}>
+                {props.map(prop =>
+                    <CardItem key={Math.random() * 975 / 135} img={prop?.img} text={prop?.text} title={prop?.title}
+                        subtitle={prop?.subtitle} id={prop?.id} cardHeader={prop?.cardHeader} cardFooter={prop?.cardFooter} />
+                )}
+            </CardsGroup>
         </Container>
     );
 }

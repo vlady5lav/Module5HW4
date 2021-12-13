@@ -1,4 +1,4 @@
-export default interface IRegisterResult {
-    id: number;
-    token: string;
+export default interface RegisterResult {
+    id: number,
+    token: string,
 }

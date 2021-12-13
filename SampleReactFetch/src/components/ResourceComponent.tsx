@@ -1,47 +1,47 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import ListComponent, { LoadingGenerator, ICardItemProps } from './ListComponent'
-import { getResponse, HttpRequestMethod } from './ApiComponent';
-import IResource from '../models/Resource';
-import IResourceDTO from '../dto/ResourceDTO';
-import IResponseDTO from '../dto/ResponseDTO';
+import ListComponent, { LoadingGenerator, CardItemProps } from './ListComponent'
+import { getResponse, HttpRequestMethod } from './ApiService';
+import Resource from '../models/Resource';
+import ResourceDTO from '../dtos/ResourceDTO';
+import ResponseDTO from '../dtos/ResponseDTO';
 
-const getResourceById = async (id: number, delay = 0): Promise<IResource> => {
+const getResourceById = async (id: number, delay = 0): Promise<Resource> => {
     const response = await (
-        await getResponse<undefined, IResponseDTO<IResourceDTO>>(
+        await getResponse<undefined, ResponseDTO<ResourceDTO>>(
             { requestUrl: delay == 0 ? `unknown/${id}` : `unknown/${id}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
 
-const getResourcesByPage = async (page: number, delay = 0): Promise<IResource[]> => {
+const getResourcesByPage = async (page: number, delay = 0): Promise<Resource[]> => {
     const response = await (
-        await getResponse<undefined, IResponseDTO<IResourceDTO[]>>(
+        await getResponse<undefined, ResponseDTO<ResourceDTO[]>>(
             { requestUrl: delay == 0 ? `unknown?page=${page}` : `unknown?page=${page}?delay=${delay}`, method: HttpRequestMethod.GET })
     ).data;
     return response;
 }
 
-const createResource = async (resource: IResourceDTO): Promise<IResource> => {
-    const response = await getResponse<IResourceDTO, IResourceDTO>(
+const createResource = async (resource: ResourceDTO): Promise<Resource> => {
+    const response = await getResponse<ResourceDTO, ResourceDTO>(
         { requestUrl: 'unknown', method: HttpRequestMethod.POST, payload: resource });
     return response;
 }
 
-const updatePatchResourceById = async (id: number, resource: IResourceDTO): Promise<IResource> => {
-    const response = await getResponse<IResourceDTO, IResourceDTO>(
+const updatePatchResourceById = async (id: number, resource: ResourceDTO): Promise<Resource> => {
+    const response = await getResponse<ResourceDTO, ResourceDTO>(
         { requestUrl: `unknown/${id}`, method: HttpRequestMethod.PATCH, payload: resource });
     return response;
 }
 
-const updatePutResourceById = async (id: number, resource: IResourceDTO): Promise<IResource> => {
-    const response = await getResponse<IResourceDTO, IResourceDTO>(
+const updatePutResourceById = async (id: number, resource: ResourceDTO): Promise<Resource> => {
+    const response = await getResponse<ResourceDTO, ResourceDTO>(
         { requestUrl: `unknown/${id}`, method: HttpRequestMethod.PUT, payload: resource });
     return response;
 }
 
 /*
-const deleteResourceById = async (id: number): Promise<any> => {
-    const response = await getResponse<any, any>(
+const deleteResourceById = async (id: number): Promise<unknown> => {
+    const response = await getResponse<unknown, unknown>(
         { requestUrl: `unknown/${id}`, method: HttpRequestMethod.DELETE });
     return response;
 }
@@ -50,25 +50,25 @@ const deleteResourceById = async (id: number): Promise<any> => {
 const ResourceComponent = (): ReactElement => {
     const [loading, setLoading] = useState(true);
 
-    const [resource, setResource] = useState<IResource | null>(null);
-    const [resources, setResources] = useState<IResource[] | null>(null);
-    const [unavaibleResource, setUnavaibleResource] = useState<IResource | null>(null);
+    const [resource, setResource] = useState<Resource | null>(null);
+    const [resources, setResources] = useState<Resource[] | null>(null);
+    const [unavaibleResource, setUnavaibleResource] = useState<Resource | null>(null);
 
-    const [createdResource, setCreatedResource] = useState<IResource | null>(null);
-    const [updatedPatchedResource, setUpdatedPatchedResource] = useState<IResource | null>(null);
-    const [updatedPutResource, setUpdatedPutResource] = useState<IResource | null>(null);
+    const [createdResource, setCreatedResource] = useState<Resource | null>(null);
+    const [updatedPatchedResource, setUpdatedPatchedResource] = useState<Resource | null>(null);
+    const [updatedPutResource, setUpdatedPutResource] = useState<Resource | null>(null);
 
-    // const [deletedResource, setDeletedResource] = React.useState<any | null>(null);
+    // const [deletedResource, setDeletedResource] = React.useState<unknown | null>(null);
 
     const getResult = async (): Promise<void> => {
         const resultGetResource = await getResourceById(2);
         const resultGetResources = await getResourcesByPage(2);
         const resultGetUnavaibleResource = await getResourceById(17);
 
-        const createdResource: IResourceDTO = { id: "20", color: "colored", name: "trinity", pantone_value: "morpheus", year: 1990 };
+        const createdResource: ResourceDTO = { id: "20", color: "colored", name: "trinity", pantone_value: "morpheus", year: 1990 };
         const resultCreateResource = await createResource(createdResource);
 
-        const resource: IResourceDTO = { id: "2", color: "colored", name: "morpheus", pantone_value: "trinity", year: 1995 };
+        const resource: ResourceDTO = { id: "2", color: "colored", name: "morpheus", pantone_value: "trinity", year: 1995 };
         const resultUpdatePatchResource = await updatePatchResourceById(2, resource);
         const resultUpdatePutResource = await updatePutResourceById(2, resource);
 
@@ -91,7 +91,7 @@ const ResourceComponent = (): ReactElement => {
         getResult();
     }, []);
 
-    const getResourceProps = (resource: IResource): ICardItemProps => {
+    const getResourceProps = (resource: Resource): CardItemProps => {
         if (resource == null) {
             throw Error('Resource is null or undefined!');
         }
@@ -99,12 +99,12 @@ const ResourceComponent = (): ReactElement => {
         return { cardHeader: 'ID: ' + resource?.id, title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, cardFooter: 'Pantone Value: ' + resource?.pantone_value };
     }
 
-    const getResourcesProps = (resources: IResource[]): ICardItemProps[] => {
+    const getResourcesProps = (resources: Resource[]): CardItemProps[] => {
         if (resources == null) {
             throw Error('Resources are null or undefined!');
         }
 
-        const cardItemProps: ICardItemProps[] = [];
+        const cardItemProps: CardItemProps[] = [];
 
         for (const resource of resources) {
             if (resource != null) {
@@ -116,7 +116,7 @@ const ResourceComponent = (): ReactElement => {
         return cardItemProps;
     }
 
-    const getCreatedResourceProps = (resource: IResource): ICardItemProps => {
+    const getCreatedResourceProps = (resource: Resource): CardItemProps => {
         if (resource == null) {
             throw Error('Resource is null or undefinded!');
         }
@@ -124,7 +124,7 @@ const ResourceComponent = (): ReactElement => {
         return { cardHeader: 'Resource created successfully!', title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, text: 'Pantone Value: ' + resource?.pantone_value, cardFooter: 'ID: ' + resource?.id };
     }
 
-    const getUpdatedResourceProps = (resource: IResource): ICardItemProps => {
+    const getUpdatedResourceProps = (resource: Resource): CardItemProps => {
         if (resource == null) {
             throw Error('Resource is null or undefinded!');
         }
@@ -132,12 +132,12 @@ const ResourceComponent = (): ReactElement => {
         return { cardHeader: 'Resource updated successfully!', title: 'Name: ' + resource?.name, subtitle: 'Year: ' + resource?.year, text: 'Pantone Value: ' + resource?.pantone_value, cardFooter: 'ID: ' + resource?.id };
     }
 
-    const resourceProps: ICardItemProps[] = resource ? Array.of(getResourceProps(resource)) : [];
-    const resourcesProps: ICardItemProps[] = resources ? getResourcesProps(resources) : [];
-    const unavaibleResourceProps: ICardItemProps[] = unavaibleResource ? Array.of(getResourceProps(unavaibleResource)) : [];
-    const createdResourceProps: ICardItemProps[] = createdResource ? Array.of(getCreatedResourceProps(createdResource)) : [];
-    const updatedPatchedResourceProps: ICardItemProps[] = updatedPatchedResource ? Array.of(getUpdatedResourceProps(updatedPatchedResource)) : [];
-    const updatedPutResourceProps: ICardItemProps[] = updatedPutResource ? Array.of(getUpdatedResourceProps(updatedPutResource)) : [];
+    const resourceProps: CardItemProps[] = resource ? Array.of(getResourceProps(resource)) : [];
+    const resourcesProps: CardItemProps[] = resources ? getResourcesProps(resources) : [];
+    const unavaibleResourceProps: CardItemProps[] = unavaibleResource ? Array.of(getResourceProps(unavaibleResource)) : [];
+    const createdResourceProps: CardItemProps[] = createdResource ? Array.of(getCreatedResourceProps(createdResource)) : [];
+    const updatedPatchedResourceProps: CardItemProps[] = updatedPatchedResource ? Array.of(getUpdatedResourceProps(updatedPatchedResource)) : [];
+    const updatedPutResourceProps: CardItemProps[] = updatedPutResource ? Array.of(getUpdatedResourceProps(updatedPutResource)) : [];
 
     return (
         <>

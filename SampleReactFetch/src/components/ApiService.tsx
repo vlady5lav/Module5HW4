@@ -1,6 +1,6 @@
 const apiUrl = process.env.BASE_API_URL;
 
-export const getResponse = async <Tin, Tout>({ requestUrl, method, payload }: IRequestOptions<Tin>): Promise<Tout> => {
+export const getResponse = async <Tin, Tout>({ requestUrl, method, payload }: RequestOptions<Tin>): Promise<Tout> => {
     const requestOptions = {
         method: `${HttpRequestMethod[method]}`,
         headers: { "Content-Type": "application/json" },
@@ -22,7 +22,7 @@ const responseHandler = async <Tout,>(response: Response): Promise<Tout> => {
 
 export enum HttpRequestMethod { DELETE, GET, PATCH, POST, PUT }
 
-interface IRequestOptions<T> {
+interface RequestOptions<T> {
     requestUrl: string,
     method: HttpRequestMethod,
     payload?: T,
